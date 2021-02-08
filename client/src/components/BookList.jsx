@@ -1,5 +1,4 @@
 import { gql } from 'apollo-boost';
-import { useEffect } from 'react';
 import { graphql } from 'react-apollo';
 
 const getBooksQuery = gql`
@@ -12,15 +11,21 @@ const getBooksQuery = gql`
 `;
 
 const BookList = props => {
-  useEffect(() => {
-    console.log(props);
-  }, [props]);
+  const displayBooks = () => {
+    const {
+      data: { books, loading },
+    } = props;
+
+    if (loading) {
+      return <div>Loading Books...</div>;
+    } else {
+      return books.map(({ name, id }) => <li key={id}>{name}</li>);
+    }
+  };
 
   return (
     <div>
-      <ul id="book-list">
-        <li>Book name</li>
-      </ul>
+      <ul id="book-list">{displayBooks()}</ul>
     </div>
   );
 };
