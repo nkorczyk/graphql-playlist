@@ -28,7 +28,9 @@ const AddBook = props => {
 
     const { addBookMutation } = props;
 
-    addBookMutation();
+    addBookMutation({
+      variables: book,
+    });
   };
 
   return (
