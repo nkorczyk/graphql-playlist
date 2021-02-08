@@ -31,7 +31,6 @@ const BookDetails = ({ data: { book } }) => {
 
   return (
     <div id="book-details">
-      <p>Output book details</p>
       <div>{displayBookDetails()}</div>
     </div>
   );
