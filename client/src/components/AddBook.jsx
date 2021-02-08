@@ -1,14 +1,15 @@
 import { useState } from 'react';
 import { graphql } from 'react-apollo';
+import { flowRight as compose } from 'lodash';
 
-import { getAuthorsQuery } from '../queries/queries';
+import { getAuthorsQuery, addBookMutation } from '../queries/queries';
 
 const AddBook = props => {
   const [book, setBook] = useState({ name: '', genre: '', authorId: '' });
 
   const displayAuthors = () => {
     const {
-      data: { authors, loading },
+      getAuthorsQuery: { authors, loading },
     } = props;
 
     if (loading) {
@@ -24,7 +25,10 @@ const AddBook = props => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    console.log('book', book);
+
+    const { addBookMutation } = props;
+
+    addBookMutation();
   };
 
   return (
@@ -55,4 +59,7 @@ const AddBook = props => {
   );
 };
 
-export default graphql(getAuthorsQuery)(AddBook);
+export default compose(
+  graphql(getAuthorsQuery, { name: 'getAuthorsQuery' }),
+  graphql(addBookMutation, { name: 'addBookMutation' }),
+)(AddBook);
